@@ -20,7 +20,7 @@ namespace bh::sdk{
     namespace fs = std::filesystem;
     
     typedef std::vector<HTTPMethods> AllowedMethods;
-    typedef std::function<httplib::Server&(const httplib::Request&, const httplib::Response&)> RouteFnc;
+    typedef std::function<void(const httplib::Request&, const httplib::Response&)> RouteFnc;
 
     BLUEHTTP_API struct HTTPRoute{
         std::string path;
