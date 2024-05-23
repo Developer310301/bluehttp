@@ -19,8 +19,10 @@ namespace bh{
 
         fs::path dirPath = this->_blueprint_folder;
 
-        if(!fs::exists(dirPath))
+        if(!fs::exists(dirPath)){
             fs::create_directories(dirPath);
+            BH_LOG_INFO("Creating blueprints path at {}", dirPath.c_str());
+        }
         
         for(const auto& entry : fs::directory_iterator(dirPath)){
             if(entry.is_regular_file() && ALLOWED_EXTENSION == entry.path().extension()){
@@ -30,19 +32,20 @@ namespace bh{
                 void* handler = dlopen(bp_path.c_str(), RTLD_NOW);
 
                 if(!handler){
-                    std::cerr << "Cannot open library: " << dlerror() << "\n";
+                    BH_LOG_ERROR("Cannot open the library at {}: {}", bp_path, dlerror());
                     continue;
                 }
 
                 sdk::ExportBlueprints fnc = reinterpret_cast<sdk::ExportBlueprints>(dlsym(handler,EXPORT_BLUEPRINT_FNC));
 
                 if(!fnc){
-                    std::cerr << dlerror() << std::endl;
+                    BH_LOG_ERROR("Cannot get the {} function: {}", EXPORT_BLUEPRINT_FNC, dlerror());
                     
                     continue;
                 }
 
                 this->_handlers.emplace_back(std::make_pair(handler, fnc));
+                BH_LOG_INFO("Library {} loaded correctly!", bp_path);
 
             }
         }
@@ -59,10 +62,13 @@ namespace bh{
                 if(this->IsBlueprintAllowed(bp)){
                     sdk::HTTPBlueprint* bp_obj = reinterpret_cast<sdk::HTTPBlueprint*>(dlsym(bp_handler.first, bp.c_str()));
                     if(!bp_obj){
-                        std::cerr << dlerror() << std::endl;
+                        BH_LOG_ERROR("Cannot get the {} blueprint instance: {}", bp, dlerror());
                         continue;
                     }
                     this->_blueprints_instances.emplace_back(bp_obj);
+                    BH_LOG_ERROR("Loaded blueprint {}!", bp);
+                }else{
+                    BH_LOG_WARN("Blueprint {} is blacklisted!", bp);
                 }
             }
 

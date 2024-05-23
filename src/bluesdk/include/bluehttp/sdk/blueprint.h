@@ -17,6 +17,7 @@ namespace bh::sdk{
         OPTIONS
     };
 
+    namespace fs = std::filesystem;
     
     typedef std::vector<HTTPMethods> AllowedMethods;
     typedef std::function<httplib::Server&(const httplib::Request&, const httplib::Response&)> RouteFnc;
@@ -33,12 +34,24 @@ namespace bh::sdk{
             std::string _base_path;
             std::vector<HTTPRoute> _routes;
 
+        private:
+            inline std::string MergeWithBasePath(std::string relative_path){
+                fs::path root = this->_base_path;
+                fs::path rel_path = relative_path;
+
+                if (!root.empty()) {
+                    root /= "/";
+                }
+
+                return fs::canonical(root / rel_path).c_str();
+            }
+
         public:
-            inline HTTPBlueprint(std::string base_path = "") : _base_path(base_path){}
+            inline HTTPBlueprint(std::string base_path = "/") : _base_path(base_path){}
             
             template<typename... Args>
             void RegisterRoute(std::string path, AllowedMethods methods, RouteFnc fnc){
-                this->_routes.emplace_back((HTTPRoute){path, methods, fnc});
+                this->_routes.emplace_back((HTTPRoute){this->MergeWithBasePath(path), methods, fnc});
             }
 
             inline const std::vector<HTTPRoute>& GetRoutes(){ return this->_routes; }

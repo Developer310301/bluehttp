@@ -23,7 +23,7 @@ project "bluesdk"
 
     includedirs { "src/bluesdk/include" }
 
-    links { "ssl", "crypto" }
+    links { "ssl", "crypto", "spdlog" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
@@ -48,7 +48,7 @@ project "bluehttp"
 
     includedirs { "src/bluehttp/include", "src/bluesdk/include" }
 
-    links { "bluesdk", "ssl", "crypto" }
+    links { "bluesdk", "ssl", "crypto", "spdlog" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
@@ -74,7 +74,7 @@ project "blueprint"
 
     includedirs { "src/bluesdk/include"}
 
-    links { "bluesdk", "ssl", "crypto" }
+    links { "bluesdk", "ssl", "crypto", "spdlog" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }

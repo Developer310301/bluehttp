@@ -38,7 +38,7 @@ OBJDIR = output/obj/x86_64/linux/Debug/blueprint
 DEFINES += -DDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -fPIC
-LIBS += output/bin/x86_64/linux/Debug/libbluesdk.so -lssl -lcrypto
+LIBS += output/bin/x86_64/linux/Debug/libbluesdk.so -lssl -lcrypto -lspdlog
 LDDEPS += output/bin/x86_64/linux/Debug/libbluesdk.so
 ALL_LDFLAGS += $(LDFLAGS) -Lexternal/lib -L/usr/lib64 -Wl,-rpath,'$$ORIGIN' -m64 -shared -Wl,-soname=libblueprint.so
 
@@ -49,7 +49,7 @@ OBJDIR = output/obj/x86_64/linux/Release/blueprint
 DEFINES += -DNDEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -fPIC
-LIBS += output/bin/x86_64/linux/Release/libbluesdk.so -lssl -lcrypto
+LIBS += output/bin/x86_64/linux/Release/libbluesdk.so -lssl -lcrypto -lspdlog
 LDDEPS += output/bin/x86_64/linux/Release/libbluesdk.so
 ALL_LDFLAGS += $(LDFLAGS) -Lexternal/lib -L/usr/lib64 -Wl,-rpath,'$$ORIGIN' -m64 -shared -Wl,-soname=libblueprint.so -s
 

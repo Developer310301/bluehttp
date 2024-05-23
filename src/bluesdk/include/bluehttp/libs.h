@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "bluehttp/api.h"
+#include "bluehttp/logger.h"
 #include "bluehttp/httplib.h"
 
 
