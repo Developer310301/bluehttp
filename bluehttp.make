@@ -65,7 +65,9 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/configuration.o
 GENERATED += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/configuration.o
 OBJECTS += $(OBJDIR)/main.o
 
 # Rules
@@ -130,6 +132,9 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/configuration.o: src/bluehttp/src/configuration.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: src/bluehttp/src/main.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

@@ -6,7 +6,7 @@
 #include <dlfcn.h>
 #include <filesystem>
 #include <algorithm>
-#include <iostream>
+#include <fstream>
 
 #include "bluehttp/api.h"
 #include "bluehttp/logger.h"

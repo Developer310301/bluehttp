@@ -65,6 +65,17 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "span": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "csetjmp": "cpp",
+        "strstream": "cpp",
+        "charconv": "cpp",
+        "chrono": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "source_location": "cpp",
+        "future": "cpp",
+        "cfenv": "cpp",
+        "typeindex": "cpp",
+        "filesystem": "cpp"
     }
 }

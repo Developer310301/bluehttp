@@ -1,6 +1,6 @@
 #define RYML_SINGLE_HDR_DEFINE_NOW
 
-#include "bluehttp/ryml.h"
+#include "bluehttp/configuration.h"
 #include "bluehttp/blueprint_loader.h"
 
 using namespace httplib;
@@ -8,8 +8,12 @@ using namespace bh;
 
 int main(){
 
+    Configuration config;
     Logger logger;
     Server srv;
+
+    BH_LOG_INFO("Reading Configuation...");
+    config.LoadConfig();
 
     BH_LOG_INFO("Initializing server...");
 
@@ -17,7 +21,7 @@ int main(){
         BH_LOG_INFO("[{}:{}]({} {})\t{}", req.remote_addr, req.remote_port, req.method, res.status, req.path);
     });
 
-    BlueprintLoader bp_l("./blueprints", false);
+    BlueprintLoader bp_l(config.GetBlueprintsPath(), config.UseBlueprintsWhitelist());
 
     BH_LOG_INFO("Loading plugins...");
     bp_l.LoadFiles();
@@ -29,11 +33,11 @@ int main(){
     bp_l.RegisterRoutes(&srv);
 
 
-    BH_LOG_INFO("Starting server on {}:{}", "127.0.0.1", 8080);
+    BH_LOG_INFO("Starting server on {}:{}", config.GetListenAddress(), config.GetServerPort());
 
     
 
-    srv.listen("127.0.0.1", 8080);
+    srv.listen(config.GetListenAddress(), config.GetServerPort());
 
     return 0;
 }
